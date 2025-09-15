@@ -1,0 +1,85 @@
+BEGIN Blackjack Game
+
+DEFINE suits:
+    SPADE = ["A♠", "2♠", ..., "Q♠"]
+    HEARTS = ["A♥", "2♥", ..., "Q♥"]
+    CLUBS = ["A♣", "2♣", ..., "Q♣"]
+    DIAMONDS = ["A♦", "2♦", ..., "Q♦"]
+
+---------------------------------------
+FUNCTION deal_card(deck):
+    Choose a random card from deck
+    Remove chosen card from deck
+    RETURN chosen card
+
+---------------------------------------
+FUNCTION calculate_score(hand):
+    SET total = 0
+    FOR each card in hand:
+        IF card is J, Q, or K → add 10 to total
+        ELSE IF card is Ace (A):
+            IF total > 21 → add 1
+            ELSE → add 11
+        ELSE IF card is 2–9 → add numeric value
+        ELSE IF card is 10 → add 10
+    END FOR
+
+    IF total = 21 AND hand has 2 cards:
+        RETURN "Blackjack"
+    ELSE:
+        RETURN total
+
+---------------------------------------
+FUNCTION compare(player_score, dealer_score):
+    IF both scores are "Blackjack":
+        RETURN "Draw - both have Blackjack"
+    ELSE IF one has "Blackjack":
+        RETURN "That player wins"
+    ELSE:
+        IF player_score > 21 → RETURN "Player busts, lose"
+        ELSE IF dealer_score > 21 → RETURN "Dealer busts, player wins"
+        ELSE IF scores equal → RETURN "Draw"
+        ELSE IF player_score > dealer_score → RETURN "Player wins"
+        ELSE RETURN "Player loses"
+
+---------------------------------------
+FUNCTION play_blackjack(deck, turn):
+    CREATE player_hand with 2 dealt cards
+    SET turn_over = FALSE
+
+    WHILE turn_over = FALSE:
+        CALCULATE player_score
+        DISPLAY turn, cards, and score
+
+        IF score = "Blackjack":
+            DISPLAY "Blackjack!"
+            turn_over = TRUE
+        ELSE IF score > 21:
+            DISPLAY "Bust!"
+            turn_over = TRUE
+        ELSE:
+            ASK player: "Hit or Stand?"
+            IF "Hit":
+                Add new dealt card to hand
+            ELSE IF "Stand":
+                turn_over = TRUE
+            ELSE:
+                Ask again
+    END WHILE
+
+    RETURN [score, hand]
+
+---------------------------------------
+MAIN PROGRAM
+    DISPLAY welcome banner
+
+    SET game_running = TRUE
+
+    WHILE TRUE:
+        IF game_running:
+            CREATE new deck with all suits combined
+
+            player_result = play_blackjack(deck, "Player")
+            dealer_result = play_blackjack(deck, "Dealer")
+
+            DISPLAY both final
