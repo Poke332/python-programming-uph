@@ -1,31 +1,18 @@
-database = set()
-user_input = str()
-
-def registration_system(db, num=1):
+def registration_system(num):
+    db = dict()
+    output = []
+    
     for _ in range(num):
         name = input().strip()
         if name not in db:
-            db.add(name)
-            print("OK")
+            db[name] = 0
+            output.append("OK")
         else:
-            count = 1
-            while True:
-                new_name = name + str(count)
-                if new_name not in database:
-                    database.add(new_name)
-                    print(new_name)
-                    break
-                count += 1
+            db[name] += 1
+            output.append(f"{name}{db[name]}")
+            
+    print("\n".join(output))
             
 
-while True:
-    user_input = input().strip()
-    try:
-        user_input = int(user_input)
-        break
-    except:
-        continue
-
-registration_system(database, user_input)
-print(database)
+registration_system(int(input().strip()))
 
