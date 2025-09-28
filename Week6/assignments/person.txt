@@ -1,0 +1,3 @@
+Alice:Bob,Charlie,David
+Bob:Alice,Charlie
+Charlie:Alice,Bob,Eve
